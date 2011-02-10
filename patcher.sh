@@ -17,24 +17,15 @@
 ##
 
 ROOT_PATH=`pwd`
-WORKING_PATH=/tmp
-
-PATCH_NAME=JENA_44
-PATCH_FILE_NAME=JENA-44-0.patch
-PATCH_URL_PATH=https://issues.apache.org/jira/secure/attachment/12470682/$PATCH_FILE_NAME
 
 PATCH_ARQ_POM_FILE=pom-arq.patch
 PATCH_TDB_POM_FILE=pom-tdb.patch
 
-## if [ ! -d "/tmp/arq" ] ; then
-##     mkdir /tmp/arq
-## fi
-## 
-## if [ ! -d "/tmp/tdb" ] ; then
-##     mkdir /tmp/tdb
-## fi
+source jena-29-patch.sh
+
 
 svn_revert() {
+    echo "Reverting SVN repository..."
     if [ -f "pom.xml.orig" ] ; then 
         rm pom.xml.orig 
     fi
@@ -43,30 +34,76 @@ svn_revert() {
     fi
     svn revert -R *
     svn st |grep ^\?| awk '{print $2}'|xargs rm -rf
+    echo "done."
+		svn status
 }
 
+
+if [ ! -d "$PATCH_TDB_FILE_NAME" ] ; then
+    mkdir -p $WORKING_PATH 
+fi
 cd $WORKING_PATH
 
+echo "Checking out ARQ and TDB..."
 svn co https://jena.svn.sourceforge.net/svnroot/jena/ARQ/trunk/ arq
 svn co https://jena.svn.sourceforge.net/svnroot/jena/TDB/trunk/ tdb
+echo "done."
+
+
+##
+## Patching ARQ code and pom.xml file and compiling
+##
 
 cd $WORKING_PATH/arq
 svn_revert
+
+echo "Patching ARQ pom.xml file..."
 cp $ROOT_PATH/pom-arq.patch $WORKING_PATH/arq/
+sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom-arq.patch
 patch -p0 < pom-arq.patch
-if [ ! -f "$PATCH_FILE_NAME" ] ; then
-    wget $PATCH_URL_PATH
+## sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom.xml
+echo "done."
+
+if [[ -n $PATCH_ARQ_FILE_NAME ]] ; then
+    echo "Patching ARQ code..."
+    if [ ! -f "$PATCH_ARQ_FILE_NAME" ] ; then
+        wget $PATCH_ARQ_URL_PATH
+    fi
+    # cat $PATCH_ARQ_FILE_NAME
+    patch -p0 < $PATCH_ARQ_FILE_NAME
+    echo "done."
 fi
-patch -p0 < $PATCH_FILE_NAME
-sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom.xml
+
 mvn clean install
+
+
+##
+## Patching TDB code and pom.xml file and compiling
+##
 
 cd $WORKING_PATH/tdb
 svn_revert
+
+echo "Patching TDB pom.xml file..."
 cp $ROOT_PATH/pom-tdb.patch $WORKING_PATH/tdb/
 sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom-tdb.patch
 patch -p0 < pom-tdb.patch
+## sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom.xml
+echo "done."
+
+if [[ -n $PATCH_TDB_FILE_NAME ]] ; then
+    echo "Patching TDB code..."
+    if [ ! -f "$PATCH_TDB_FILE_NAME" ] ; then
+        wget $PATCH_TDB_URL_PATH
+    fi
+    # cat $PATCH_TDB_FILE_NAME
+    patch -p0 < $PATCH_TDB_FILE_NAME
+    echo "done."
+fi
+
 mvn clean install
+
+
 
 echo "Do you want to proceed publishing SNAPSHOTs? [y|n]"
 read ANSWER
