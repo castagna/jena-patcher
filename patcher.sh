@@ -39,7 +39,7 @@ svn_revert() {
 }
 
 
-if [ ! -d "$PATCH_TDB_FILE_NAME" ] ; then
+if [ ! -d "$WORKING_PATH" ] ; then
     mkdir -p $WORKING_PATH 
 fi
 cd $WORKING_PATH
