@@ -21,7 +21,7 @@ ROOT_PATH=`pwd`
 PATCH_ARQ_POM_FILE=pom-arq.patch
 PATCH_TDB_POM_FILE=pom-tdb.patch
 
-source jena-29-patch.sh
+source jena-44-patch.sh
 
 
 svn_revert() {
