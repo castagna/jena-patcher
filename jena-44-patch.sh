@@ -19,8 +19,8 @@
 WORKING_PATH=/tmp/JENA-44
 
 PATCH_NAME="JENA_44"
-PATCH_ARQ_FILE_NAME="JENA-44_ARQ_r8531.patch"
-PATCH_ARQ_URL_PATH="https://issues.apache.org/jira/secure/attachment/12471162/$PATCH_ARQ_FILE_NAME"
+PATCH_ARQ_FILE_NAME="12477870/JENA-44_ARQ_r8724.patch"
+PATCH_ARQ_URL_PATH="https://issues.apache.org/jira/secure/attachment/$PATCH_ARQ_FILE_NAME"
 PATCH_TDB_FILE_NAME=""
 PATCH_TDB_URL_PATH=""
 

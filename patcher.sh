@@ -45,8 +45,8 @@ fi
 cd $WORKING_PATH
 
 echo "Checking out ARQ and TDB..."
-svn co https://jena.svn.sourceforge.net/svnroot/jena/ARQ/trunk/ arq
-svn co https://jena.svn.sourceforge.net/svnroot/jena/TDB/trunk/ tdb
+svn co http://svn.apache.org/repos/asf/incubator/jena/Jena2/ARQ/trunk/ arq
+svn co http://svn.apache.org/repos/asf/incubator/jena/Jena2/TDB/trunk/ tdb
 echo "done."
 
 

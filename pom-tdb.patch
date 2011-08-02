@@ -1,13 +1,13 @@
 Index: pom.xml
 ===================================================================
---- pom.xml	(revision 8502)
+--- pom.xml	(revision 1153100)
 +++ pom.xml	(working copy)
 @@ -10,7 +10,7 @@
    <artifactId>tdb</artifactId>
    <packaging>jar</packaging>
    <name>TDB</name>
--  <version>0.8.10-SNAPSHOT</version>
-+  <version>0.8.10-@@PATCH_NAME@@-SNAPSHOT</version>
+-  <version>0.8.11-SNAPSHOT</version>
++  <version>0.8.11-@@PATCH_NAME@@-SNAPSHOT</version>
  
    <description>TDB is a storage subsystem for Jena and ARQ</description>
    <url>http://openjena.org/TDB</url>
@@ -15,32 +15,27 @@ Index: pom.xml
    <properties>
      <this.root>${project.artifactId}-${project.version}</this.root>
      <ver.jena>2.6.4</ver.jena>
--    <ver.arq>2.8.8-SNAPSHOT</ver.arq>
-+    <ver.arq>2.8.8-@@PATCH_NAME@@-SNAPSHOT</ver.arq>
-   </properties>
+-    <ver.arq>2.8.9-SNAPSHOT</ver.arq>
++    <ver.arq>2.8.9-@@PATCH_NAME@@-SNAPSHOT</ver.arq>
+     <ver.iri>0.8</ver.iri>
+     <ver.junit>4.8.2</ver.junit>
+     <ver.slf4j>1.6.1</ver.slf4j>
+@@ -406,22 +406,13 @@
+     <downloadUrl>http://openjena.org/repo-dev</downloadUrl>
  
-   <dependencies>
-@@ -398,28 +398,14 @@
-   </repositories>
- 
-   <distributionManagement>
--    <downloadUrl>http://openjena.org/repo-dev</downloadUrl>
--
      <repository>
 -      <id>jena-repo</id>
 -      <name>Jena repo</name>
 -
--      <!--<url>sftp://openjena.org/var/repo</url>-->
+-      <url>sftp://openjena.org/var/repo</url>
 -      <!-- Because RC's are snapshots IMHO -->
--      <url>sftp://openjena.org/var/repo-dev</url>
--
+-      <!--<url>sftp://openjena.org/var/repo-dev</url>-->
 -      <!--<url>file:tmp</url>-->
 -      <layout>default</layout>
--    </repository> 
--
 +      <id>talis-oss-releases</id>
 +      <url>http://oss.talisplatform.com/content/repositories/talis-releases</url>
-+    </repository>
+     </repository> 
+ 
      <snapshotRepository>
 -      <id>jena-repo-dev</id>
 -      <name>Jena development repo</name>
@@ -50,8 +45,5 @@ Index: pom.xml
 +      <id>talis-oss-snapshots</id>
 +      <url>http://oss.talisplatform.com/content/repositories/talis-snapshots</url>
      </snapshotRepository>
--
-   </distributionManagement>
  
- </project>
-
+   </distributionManagement>
