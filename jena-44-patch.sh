@@ -18,6 +18,13 @@
 
 WORKING_PATH=/tmp/JENA-44
 
+ARQ_SVN_REPOSITORY="http://svn.apache.org/repos/asf/incubator/jena/Jena2/ARQ/trunk/"
+TDB_SVN_REPOSITORY="http://svn.apache.org/repos/asf/incubator/jena/Jena2/TDB/trunk/"
+ARQ_PATH="arq"
+TDB_PATH="tdb"
+PATCH_ARQ_POM_FILE=pom-arq.patch
+PATCH_TDB_POM_FILE=pom-tdb.patch
+
 PATCH_NAME="JENA_44"
 PATCH_ARQ_FILE_NAME="JENA-44_ARQ_r1156212.patch"
 PATCH_ARQ_URL_PATH="https://issues.apache.org/jira/secure/attachment/12490098/$PATCH_ARQ_FILE_NAME"

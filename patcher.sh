@@ -18,11 +18,7 @@
 
 ROOT_PATH=`pwd`
 
-PATCH_ARQ_POM_FILE=pom-arq.patch
-PATCH_TDB_POM_FILE=pom-tdb.patch
-
-source jena-44-patch.sh
-
+source jena-44+91-patch.sh
 
 svn_revert() {
     echo "Reverting SVN repository..."
@@ -35,7 +31,7 @@ svn_revert() {
     svn revert -R *
     svn st |grep ^\?| awk '{print $2}'|xargs rm -rf
     echo "done."
-		svn status
+    svn status
 }
 
 
@@ -45,8 +41,8 @@ fi
 cd $WORKING_PATH
 
 echo "Checking out ARQ and TDB..."
-svn co http://svn.apache.org/repos/asf/incubator/jena/Jena2/ARQ/trunk/ arq
-svn co http://svn.apache.org/repos/asf/incubator/jena/Jena2/TDB/trunk/ tdb
+svn co $ARQ_SVN_REPOSITORY $ARQ_PATH
+svn co $TDB_SVN_REPOSITORY $TDB_PATH
 echo "done."
 
 
@@ -54,13 +50,13 @@ echo "done."
 ## Patching ARQ code and pom.xml file and compiling
 ##
 
-cd $WORKING_PATH/arq
+cd $WORKING_PATH/$ARQ_PATH
 svn_revert
 
 echo "Patching ARQ pom.xml file..."
-cp $ROOT_PATH/pom-arq.patch $WORKING_PATH/arq/
-sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom-arq.patch
-patch -p0 < pom-arq.patch
+cp $ROOT_PATH/$PATCH_ARQ_POM_FILE $WORKING_PATH/$ARQ_PATH/
+sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" $PATCH_ARQ_POM_FILE
+patch -p0 < $PATCH_ARQ_POM_FILE
 ## sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom.xml
 echo "done."
 
@@ -81,13 +77,13 @@ mvn clean install
 ## Patching TDB code and pom.xml file and compiling
 ##
 
-cd $WORKING_PATH/tdb
+cd $WORKING_PATH/$TDB_PATH
 svn_revert
 
 echo "Patching TDB pom.xml file..."
-cp $ROOT_PATH/pom-tdb.patch $WORKING_PATH/tdb/
-sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom-tdb.patch
-patch -p0 < pom-tdb.patch
+cp $ROOT_PATH/$PATCH_TDB_POM_FILE $WORKING_PATH/$TDB_PATH/
+sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" $PATCH_TDB_POM_FILE
+patch -p0 < $PATCH_TDB_POM_FILE
 ## sed -i "s/@@PATCH_NAME@@/$PATCH_NAME/g" pom.xml
 echo "done."
 
@@ -108,9 +104,9 @@ mvn clean install
 echo "Do you want to proceed publishing SNAPSHOTs? [y|n]"
 read ANSWER
 if [ $ANSWER = "y" ] ; then
-    cd $WORKING_PATH/arq
+    cd $WORKING_PATH/$ARQ_PATH
     mvn deploy
-    cd $WORKING_PATH/tdb
+    cd $WORKING_PATH/$TDB_PATH
     mvn deploy
 else
     echo "No, problem. I understand."
